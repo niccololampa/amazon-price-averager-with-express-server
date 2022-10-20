@@ -1,12 +1,16 @@
 const express = require('express');
-  
+const cors = require('cors');
 const app = express()
-const port = 3000
+const port = 8000
 
-app.get('/', (req, res) => {
-  res.send('Hello World!')
+app.use(cors());
+
+app.get('/amazon-average', (req, res) => {
+  console.log(req.query.item);
+  res.send({data: 1})
+
 })
 
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
+  console.log(`Amazon average server listening on port ${port}`)
 })

@@ -7,38 +7,26 @@ const port = 8000
 
 app.use(cors())
 
-const fetchItemPrices = async (item, page) => {
+const fetchItemPrices = async (item: string, page: number) => {
     try {
         const response = await axios.get(
             `https://amazon.com/s?k=${item}&ref=nb_sb_noss&page=${page}`
         )
 
-        // const response = await axios.get(`https://www.amazon.com/s?crid=36QNR0DBY6M7J&k=${item}&ref=glow_cls&refresh=1&sprefix=s%2Caps%2C309`);
-
         const html = response.data
-
         const $ = cheerio.load(html)
-
-        const prices = []
+        const prices: number[] = []
 
         $(
             'div.sg-col-4-of-12.s-result-item.s-asin.sg-col-4-of-16.sg-col.sg-col-4-of-20'
-        ).each((_idx, el) => {
+        ).each((_idx: number, el: any) => {
             const element = $(el)
             const price = element.find('span.a-price > span.a-offscreen').text()
-
+            // regex to get the price.
             if (price) {
-                // prices.push(price.match(/\$[\d.]+/))
                 prices.push(parseFloat(price.match(/(?<=\$)[\d.]+/)[0]))
             }
-
-            // const priceWhole = price.find('span.a-price-whole').text()
-            // const priceFraction = price.find('span.a-price-fraction').text()
-
-            //prices.push(`${priceWhole}${priceFraction}`)
         })
-
-        console.log(prices)
 
         return prices
     } catch (error) {
@@ -46,9 +34,10 @@ const fetchItemPrices = async (item, page) => {
     }
 }
 
-const asc = (arr) => arr.sort((a, b) => a - b)
+const asc = (arr: number[]) => arr.sort((a: number, b: number) => a - b)
 
-const quartile = (arr, q) => {
+// function to compute quartile to aid in removing outlier prices (too high/low)
+const quartile = (arr: number[], q: number) => {
     const sorted = asc(arr)
     const pos = (sorted.length - 1) * q
     const base = Math.floor(pos)
@@ -60,48 +49,43 @@ const quartile = (arr, q) => {
     }
 }
 
-const computeAveragePrice = (prices) => {
-    // let sortPrice = (arr) => prices.sort((a,b)=> a-b);
+// code to compute average without outliers values.
+const computeAveragePrice = (prices: number[]) => {
     const Q1 = quartile(prices, 0.25)
     const Q3 = quartile(prices, 0.75)
     const IQR = Q3 - Q1
 
-    let notOutlierPrices = []
+    let notOutlierPrices: number[] = []
 
-    prices.forEach((number) => {
-        if (number > Q3 + 1.5 * IQR || number < Q1 - 1.5 * IQR) {
-            console.log(`${number} is outlier`)
+    prices.forEach((itemPrice) => {
+        // will not add prices which are outliers
+        if (itemPrice > Q3 + 1.5 * IQR || itemPrice < Q1 - 1.5 * IQR) {
+            return
         } else {
-            notOutlierPrices.push(number)
+            notOutlierPrices.push(itemPrice)
         }
     })
 
-    console.log(notOutlierPrices)
-
-    console.log('working till here')
-
     return notOutlierPrices.reduce((a, b) => a + b, 0) / notOutlierPrices.length
-
-    // console.log(prices)
 }
 
-app.get('/amazon-average', async (req, res) => {
-    let pages = 5
-    console.log(req.query.item)
-    let allPrices = []
+app.get('/amazon-average', async (req: any, res: any) => {
+    let pages = 2
+    let allPrices: number[] = []
 
-    for (let i = 1; i <= pages; i++) {
-        console.log(i)
-        const pagePrices = await fetchItemPrices(req.query.item, i)
-        allPrices = allPrices.concat(pagePrices)
+    if (!req.query.item) {
+        return
     }
 
-    console.log(allPrices)
+    for (let i = 1; i <= pages; i++) {
+        const pagePrices = await fetchItemPrices(req.query.item.toString(), i)
+        allPrices = allPrices.concat(pagePrices)
+    }
 
     const averagePrice = computeAveragePrice(allPrices)
     res.send({ data: averagePrice.toFixed(2) })
 })
 
 app.listen(port, () => {
-    console.log(`Amazon average server listening on port ${port}`)
+    console.log(`Amazon average price server listening on port ${port}`)
 })

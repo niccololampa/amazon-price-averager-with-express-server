@@ -49,7 +49,7 @@ function App() {
         <button type="button" onClick={handleSubmit} disabled={requesting}>
           Get Average
         </button>
-        <div>{average ? average : ""}</div>
+        <div className="average-price">{average ? average : ""}</div>
       </header>
     </div>
   )

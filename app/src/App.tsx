@@ -18,7 +18,6 @@ function App() {
 
   const handlePagesInput = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const pages = e.currentTarget.value
-
     setPages(pages)
   }
 
@@ -50,25 +49,27 @@ function App() {
 
   return (
     <div className="App">
-      <header className="App-header">
-        <h1>Amazon Price Averager</h1>
-        <label>
-          Item Name:
-          <input type="text" name="item" onChange={handleItemInput} />
-        </label>
-        <label>
-          Pages:
-          <input type="text" name="item" onChange={handlePagesInput} value={pages} />
-        </label>
-        <button
-          type="button"
-          onClick={handleSubmit}
-          disabled={requesting || !item || !Number(pages)}
-        >
-          Get Average
-        </button>
-        <div className="average-price">{average ? average : ""}</div>
-      </header>
+      <h1>Amazon Price Averager</h1>
+      <label>
+        Item Name:
+        <input type="text" name="item" onChange={handleItemInput} />
+      </label>
+      <label>
+        Pages:
+        <input type="text" name="item" onChange={handlePagesInput} value={pages} />
+      </label>
+      <button type="button" onClick={handleSubmit} disabled={requesting || !item || !Number(pages)}>
+        Get Average
+      </button>
+
+      {average ? (
+        <div>
+          <div>Average price of {item}:</div>
+          <div className="average-price">${average}</div>
+        </div>
+      ) : (
+        ""
+      )}
     </div>
   )
 }

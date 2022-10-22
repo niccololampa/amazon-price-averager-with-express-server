@@ -34,10 +34,11 @@ const fetchItemPrices = async (item: string, page: number) => {
     }
 }
 
-const asc = (arr: number[]) => arr.sort((a: number, b: number) => a - b)
+const asc = (arr: number[]): number[] =>
+    arr.sort((a: number, b: number) => a - b)
 
 // function to compute quartile to aid in removing outlier prices (too high/low)
-const quartile = (arr: number[], q: number) => {
+const quartile = (arr: number[], q: number): number => {
     const sorted = asc(arr)
     const pos = (sorted.length - 1) * q
     const base = Math.floor(pos)
@@ -50,7 +51,7 @@ const quartile = (arr: number[], q: number) => {
 }
 
 // code to compute average without outliers values.
-const computeAveragePrice = (prices: number[]) => {
+const computeAveragePrice = (prices: number[]): number => {
     const Q1 = quartile(prices, 0.25)
     const Q3 = quartile(prices, 0.75)
     const IQR = Q3 - Q1
@@ -70,13 +71,14 @@ const computeAveragePrice = (prices: number[]) => {
 }
 
 app.get('/amazon-average', async (req: any, res: any) => {
-    let pages = 2
+    let pages: number = Number(req.query.pages) || 1
     let allPrices: number[] = []
 
     if (!req.query.item) {
         return
     }
 
+    // will go through all pages defined by user.
     for (let i = 1; i <= pages; i++) {
         const pagePrices = await fetchItemPrices(req.query.item.toString(), i)
         allPrices = allPrices.concat(pagePrices)

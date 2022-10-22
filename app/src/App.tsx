@@ -8,6 +8,7 @@ type GetAverageResponse = {
 
 function App() {
   const [item, setItem] = useState("")
+  const [pages, setPages] = useState("1")
   const [requesting, setRequesting] = useState(false)
   const [average, setAverage] = useState(0)
 
@@ -15,15 +16,24 @@ function App() {
     setItem(e.currentTarget.value)
   }
 
+  const handlePagesInput = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    const pages = e.currentTarget.value
+
+    setPages(pages)
+  }
+
   const handleSubmit = (): void => {
+    if (!pages) {
+      return
+    }
     getAverage()
   }
 
   const getAverage = async () => {
     try {
       setRequesting(true)
-      const { data, status } = await axios.get<GetAverageResponse>(
-        `http://localhost:8000/amazon-average?item=${item}`,
+      const { data } = await axios.get<GetAverageResponse>(
+        `http://localhost:8000/amazon-average?item=${item}&pages=${pages}`,
       )
 
       setAverage(data.data)
@@ -46,7 +56,15 @@ function App() {
           Item Name:
           <input type="text" name="item" onChange={handleItemInput} />
         </label>
-        <button type="button" onClick={handleSubmit} disabled={requesting}>
+        <label>
+          Pages:
+          <input type="text" name="item" onChange={handlePagesInput} value={pages} />
+        </label>
+        <button
+          type="button"
+          onClick={handleSubmit}
+          disabled={requesting || !item || !Number(pages)}
+        >
           Get Average
         </button>
         <div className="average-price">{average ? average : ""}</div>

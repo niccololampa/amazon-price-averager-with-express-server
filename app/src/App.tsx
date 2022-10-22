@@ -32,7 +32,7 @@ function App() {
     try {
       setRequesting(true)
       const { data } = await axios.get<GetAverageResponse>(
-        `http://localhost:8000/amazon-average?item=${item}&pages=${pages}`,
+        `${process.env.REACT_APP_SERVER}/amazon-average?item=${item}&pages=${pages}`,
       )
 
       setAverage(data.data)

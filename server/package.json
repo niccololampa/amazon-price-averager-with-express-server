@@ -6,7 +6,10 @@
   "scripts": {
     "start": "node app.js",
     "start-dev": "nodemon app.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint ./**/*.{js,jsx,ts,tsx,json}",
+    "lint:fix": "eslint --fix './**/*.{js,jsx,ts,tsx,json}'",
+    "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}'"
   },
   "author": "Niccolo Lampa",
   "license": "ISC",
@@ -17,6 +20,9 @@
     "express": "^4.18.2"
   },
   "devDependencies": {
-    "nodemon": "^2.0.20"
+    "eslint": "^8.26.0",
+    "eslint-config-prettier": "^8.5.0",
+    "nodemon": "^2.0.20",
+    "prettier": "^2.7.1"
   }
 }

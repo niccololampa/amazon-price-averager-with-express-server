@@ -5,7 +5,7 @@
     "main": "app.ts",
     "scripts": {
         "start": "ts-node app.ts",
-        "start-dev": "nodemon --watch '*.ts' --exec 'ts-node app.ts'",
+        "start-dev": "nodemon --watch '**/*.ts' --exec 'ts-node' app.ts",
         "test": "echo \"Error: no test specified\" && exit 1",
         "lint": "eslint ./**/*.{js,jsx,ts,tsx,json}",
         "lint:fix": "eslint --fix './**/*.{js,jsx,ts,tsx,json}'",

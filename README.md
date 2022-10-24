@@ -7,6 +7,8 @@ Since if we only use browser to directly request prices from Amazon we will enco
 
 The Express/Node server which is under our full control will request prices from amazon and have CORS enabled for our extension(front-end) 
 
+**See NO express/node server version [here](https://github.com/niccololampa/price-averager/tree/feature/price-averager-no-node-server).**
+
 
 ## Setup 
 
@@ -81,7 +83,7 @@ Examples:
 ## Notes: 
 
 1. The extension removes the price outliers before computing the average (see [helpers.ts](https://github.com/niccololampa/price-averager/blob/feature/price-averager-with-node-server/server/helper.ts#L50-L68) file). This is to have a more accurate price average. 
-2. As much as possible do not spam Amazon with requests. Wait for a little bit rather than doing consecutive requests.  Amazon tends to block search page requests if it detects abnormal usage. And will result in the extension not being able to request prices for hours. 
+2. **As much as possible do not spam Amazon with requests. Wait for a little bit rather than doing consecutive requests.  Amazon tends to block search page requests if it detects abnormal usage. Spamming will result in the extension not being able to request prices for hours.**
 
 
 

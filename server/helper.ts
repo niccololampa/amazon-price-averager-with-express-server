@@ -13,7 +13,7 @@ const fetchItemPrices = async (item: string, page: number) => {
 
         $(
             'div.sg-col-4-of-12.s-result-item.s-asin.sg-col-4-of-16.sg-col.sg-col-4-of-20'
-        ).each((_idx: number, el: cheerio.TextElement) => {
+        ).each((_idx: number, el: cheerio.Element) => {
             const element = $(el)
             const price = element.find('span.a-price > span.a-offscreen').text()
             // regex to get the price.

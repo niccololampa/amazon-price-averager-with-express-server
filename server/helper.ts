@@ -1,5 +1,5 @@
-const cheerio = require('cheerio')
-const axios = require('axios')
+import cheerio from "cheerio"
+import axios from "axios"
 
 const fetchItemPrices = async (item: string, page: number) => {
     try {
@@ -12,10 +12,10 @@ const fetchItemPrices = async (item: string, page: number) => {
         const prices: number[] = []
 
         $(
-            'div.sg-col-4-of-12.s-result-item.s-asin.sg-col-4-of-16.sg-col.sg-col-4-of-20'
+            "div.sg-col-4-of-12.s-result-item.s-asin.sg-col-4-of-16.sg-col.sg-col-4-of-20"
         ).each((_idx: number, el: cheerio.Element) => {
             const element = $(el)
-            const price = element.find('span.a-price > span.a-offscreen').text()
+            const price = element.find("span.a-price > span.a-offscreen").text()
             // regex to get the price.
             if (price) {
                 const regexPrice = price.match(/(?<=\$)[\d.]+/)
@@ -27,6 +27,7 @@ const fetchItemPrices = async (item: string, page: number) => {
 
         return prices
     } catch (error) {
+        console.log(error)
         throw error
     }
 }
@@ -53,7 +54,7 @@ const computeAveragePrice = (prices: number[]): number => {
     const Q3 = quartile(prices, 0.75)
     const IQR = Q3 - Q1
 
-    let notOutlierPrices: number[] = []
+    const notOutlierPrices: number[] = []
 
     prices.forEach((itemPrice) => {
         // will not add prices which are outliers

@@ -75,7 +75,7 @@ Examples:
 
 ![Screen Shot 2022-10-24 at 3 13 56 PM](https://user-images.githubusercontent.com/37615906/197468506-02d8596c-fc8f-479c-a0cc-58f452da2242.png)
 
-`ball`
+`shoes`
 
 ![Screen Shot 2022-10-24 at 3 23 26 PM](https://user-images.githubusercontent.com/37615906/197470080-f9f1427f-038a-439b-908b-e08b2f3ee556.png)
 

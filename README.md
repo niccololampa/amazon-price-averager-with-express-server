@@ -71,7 +71,7 @@ Also insert the number of pages you want to scrape (default: 1 page - top result
 
 Examples: 
 
-`pencil`
+`pencil` (sold as a pack)
 
 ![Screen Shot 2022-10-24 at 3 13 56 PM](https://user-images.githubusercontent.com/37615906/197468506-02d8596c-fc8f-479c-a0cc-58f452da2242.png)
 

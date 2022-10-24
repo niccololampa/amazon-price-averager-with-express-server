@@ -9,6 +9,7 @@ The Express/Node server which is under our full control will request prices from
 
 **See NO express/node server version [here](https://github.com/niccololampa/price-averager/tree/feature/price-averager-no-node-server).**
 
+![Screen Shot 2022-10-24 at 3 23 26 PM](https://user-images.githubusercontent.com/37615906/197486253-87ca10d5-8669-4a11-bdfa-95818878a0c7.png)
 
 ## Setup 
 
